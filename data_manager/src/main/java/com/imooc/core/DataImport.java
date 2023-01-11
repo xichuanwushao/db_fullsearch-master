@@ -1,5 +1,6 @@
 package com.imooc.core;
 
+import cn.hutool.core.io.resource.ResourceUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.imooc.utils.HBaseUtil;
@@ -20,11 +21,14 @@ public class DataImport {
 
     public static void main(String[] args) {
         //通过接口获取文章数据
-        String dataUrl = "http://data.xuwei.tech/a1/wz1";
-        JSONObject paramObj = new JSONObject();
-        paramObj.put("code","imooc");//校验码
-        paramObj.put("num",100);//数据条数，默认返回100条，最大支持返回1000条
-        JSONObject dataObj = HttpUtil.doPost(dataUrl, paramObj);
+//        String dataUrl = "http://data.xuwei.tech/a1/wz1";
+//        JSONObject paramObj = new JSONObject();
+//        paramObj.put("code","imooc");//校验码
+//        paramObj.put("num",100);//数据条数，默认返回100条，最大支持返回1000条
+//        JSONObject dataObj = HttpUtil.doPost(dataUrl, paramObj);
+        String str = ResourceUtil.readUtf8Str("腾讯新闻.json");
+//        System.out.println(str);
+        JSONObject dataObj = JSONObject.parseObject(str);
         boolean flag = dataObj.containsKey("error");
         if(!flag){
             JSONArray resArr = dataObj.getJSONArray("data");
