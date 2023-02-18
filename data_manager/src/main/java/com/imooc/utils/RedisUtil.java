@@ -22,7 +22,7 @@ public class RedisUtil {
             poolConfig.setMaxTotal(100);
             poolConfig.setMaxWaitMillis(2000);
             poolConfig.setTestOnBorrow(true);
-            jedisPool = new JedisPool(poolConfig, "192.168.182.103", 6379);
+            jedisPool = new JedisPool(poolConfig, "192.168.170.136", 6379,30,"qweqwe");
         }
         return jedisPool.getResource();
     }
