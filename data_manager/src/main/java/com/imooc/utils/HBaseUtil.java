@@ -118,7 +118,7 @@ public class HBaseUtil {
             byte[] column_bytes = CellUtil.cloneQualifier(cell);
             //值
             byte[] value_bytes = CellUtil.cloneValue(cell);
-            resMap.put(new String(column_bytes),new String(value_bytes));
+            resMap.put(new String(column_bytes,"utf-8"),new String(value_bytes,"utf-8"));
         }
         return resMap;
     }
