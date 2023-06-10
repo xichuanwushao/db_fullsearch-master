@@ -37,9 +37,8 @@ public class EsUtil {
                         new HttpHost("192.168.1.50",9200,"http"))
                         .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                             public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
-                                return httpClientBuilder.setDefaultIOReactorConfig(
-                                        IOReactorConfig.custom()
-                                                //设置线程池中线程的数量，默认是1个，建议设置为和客户端机器可用CPU数量一致
+                                return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)
+                                        .setDefaultIOReactorConfig(IOReactorConfig.custom()
                                                 .setIoThreadCount(1)
                                                 .build());
                             }
