@@ -24,9 +24,9 @@ public class EsUtil {
         //注意：高级别客户端其实是对低级别客户端的代码进行了封装，所以连接池使用的是低级别客户端中的连接池
         client = new RestHighLevelClient(
                 RestClient.builder(
-                        new HttpHost("127.0.0.1",9202,"http"),
-                        new HttpHost("127.0.0.1",9202,"http"),
-                        new HttpHost("127.0.0.1",9202,"http"))
+                        new HttpHost("192.168.1.50",9200,"http"),
+                        new HttpHost("192.168.1.50",9200,"http"),
+                        new HttpHost("192.168.1.50",9200,"http"))
                         .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                             public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
                                 return httpClientBuilder.setDefaultIOReactorConfig(
