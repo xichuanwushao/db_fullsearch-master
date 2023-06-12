@@ -3,6 +3,10 @@ package com.imooc.web.utils;
 import com.imooc.web.domain.Article;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.elasticsearch.action.index.IndexRequest;
@@ -34,21 +38,21 @@ public class EsUtil {
     private EsUtil(){}
     private static RestHighLevelClient client;
     static{
+        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials("elastic", "BZB1kqA=UH=A"));
+
         //获取RestClient连接
         //注意：高级别客户端其实是对低级别客户端的代码进行了封装，所以连接池使用的是低级别客户端中的连接池
         client = new RestHighLevelClient(
-                //这里的代码其实就是低级别客户端的代码
                 RestClient.builder(
-                                new HttpHost("127.0.0.1",9202,"http"),
-                                new HttpHost("127.0.0.1",9202,"http"),
-                                new HttpHost("127.0.0.1",9202,"http"))
+                                new HttpHost("192.168.1.50",9200,"http"),
+                                new HttpHost("192.168.1.50",9200,"http"),
+                                new HttpHost("192.168.1.50",9200,"http"))
                         .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
-                            @Override
-                            public HttpAsyncClientBuilder customizeHttpClient(
-                                    HttpAsyncClientBuilder httpClientBuilder) {
-                                return httpClientBuilder.setDefaultIOReactorConfig(
-                                        IOReactorConfig.custom()
-                                                //设置线程池中线程的数量，默认是1个，建议设置为和客户端机器可用CPU数量一致
+                            public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+                                return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)
+                                        .setDefaultIOReactorConfig(IOReactorConfig.custom()
                                                 .setIoThreadCount(1)
                                                 .build());
                             }
